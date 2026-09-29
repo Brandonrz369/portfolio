@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brandon Ruiz Systems Portfolio</title>
+<meta name="description" content="Systems portfolio of Brandon Ruiz: Windows Server, Active Directory, Linux, networks and AWS, with diagrams and proof.">
+<meta name="robots" content="noindex">
+<style>html{-webkit-text-size-adjust:100%}:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a dark rack-photo band with the name, then a six-stop rail beside one stop at a time (stacks on phones). */
+:root {
+  --paper: #edf1f5;
+  --panel: #f9fbfd;
+  --layer: #e3e9f0;
+  --ink: #13203a;
+  --muted: #56647c;
+  --line: #c6d0dc;
+  --accent: #d9531a;
+  --accent-ink: #b0400d;
+  --go: #1e8757;
+  --code-bg: #e5eaf1;
+  --kw: #7a3fb0;
+  --str: #1e7a52;
+  --var: #b0400d;
+  --cmt: #6c788c;
+  --on-image: #f1f5fa;
+  --on-image-muted: #b7c4d6;
+  --scrim-strong: rgba(5, 11, 21, 0.94);
+  --scrim-soft: rgba(5, 11, 21, 0.10);
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0b121e; --panel: #101a2a; --layer: #0e1726; --ink: #e3e9f1; --muted: #95a3b8;
+    --line: #26344d; --accent: #ff7a3d; --accent-ink: #ff8f59; --go: #3cc287; --code-bg: #0d1624;
+    --kw: #c9a0f5; --str: #6fd3a2; --var: #ff9f6e; --cmt: #7f8ca2; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0b121e; --panel: #101a2a; --layer: #0e1726; --ink: #e3e9f1; --muted: #95a3b8;
+  --line: #26344d; --accent: #ff7a3d; --accent-ink: #ff8f59; --go: #3cc287; --code-bg: #0d1624;
+  --kw: #c9a0f5; --str: #6fd3a2; --var: #ff9f6e; --cmt: #7f8ca2; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+a { color: var(--accent-ink); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* ---------- hero ---------- */
+.hero {
+  background:
+    linear-gradient(90deg, var(--scrim-strong) 0%, var(--scrim-strong) 34%, var(--scrim-soft) 78%),
+    url("assets/hero.jpg") right center / cover no-repeat;
+  color: var(--on-image);
+  padding-inline: 20px;
+  padding-block: 72px 64px;
+}
+@media (max-width: 720px) {
+  .hero { background: linear-gradient(180deg, var(--scrim-strong) 0%, var(--scrim-strong) 100%), url("assets/hero-704.jpg") center / cover no-repeat; padding-block: 48px 44px; }
+}
+.hero-inner { max-width: 1120px; margin: 0 auto; display: grid; gap: 18px; }
+.hero .eyebrow { color: var(--on-image-muted); }
+.hero h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(52px, 8vw, 88px); line-height: 0.95; letter-spacing: 0.005em; text-transform: uppercase; }
+.hero .role { font-size: clamp(18px, 2.2vw, 22px); font-weight: 500; max-width: 34ch; }
+.hero .lede { color: var(--on-image-muted); max-width: 52ch; }
+.hero .meta { font-family: var(--font-mono); font-size: 13px; color: var(--on-image-muted); display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.btn { font: 600 15px/1 var(--font-body); padding: 12px 18px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost { background: transparent; color: var(--on-image); border-color: rgba(241, 245, 250, 0.35); }
+.btn-ghost:hover { border-color: var(--on-image); }
+
+/* ---------- tour ---------- */
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 48px 72px; }
+.tour { display: grid; grid-template-columns: minmax(230px, 290px) minmax(0, 1fr); gap: 40px; align-items: start; }
+.rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); display: grid; gap: 4px; }
+.rail-head { color: var(--muted); margin-bottom: 8px; }
+.rail-item { text-align: left; background: transparent; border: 1px solid transparent; border-radius: 8px; padding: 10px 12px; cursor: pointer; color: var(--ink); font: inherit; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 2px 10px; }
+.rail-item:hover { background: var(--layer); }
+.rail-item[aria-current="step"] { background: var(--panel); border-color: var(--line); }
+.rail-item .n { font-family: var(--font-mono); font-size: 13px; color: var(--muted); padding-top: 2px; }
+.rail-item[aria-current="step"] .n { color: var(--accent-ink); font-weight: 500; }
+.rail-item .rt { font-weight: 600; font-size: 15px; line-height: 1.35; }
+.rail-item .rs { grid-column: 2; font-size: 13px; color: var(--muted); line-height: 1.45; }
+.rail-foot { margin-top: 10px; display: grid; gap: 8px; }
+.linkbtn { background: none; border: 0; padding: 4px 12px; color: var(--accent-ink); font: 500 14px var(--font-body); cursor: pointer; text-align: left; text-decoration: underline; text-underline-offset: 3px; }
+
+@media (max-width: 880px) {
+  .tour { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .rail { position: static; grid-auto-flow: column; grid-auto-columns: minmax(190px, 72%); overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+  .rail-head, .rail-foot { display: none; }
+  .rail-item { scroll-snap-align: start; border-color: var(--line); }
+}
+
+.stop { display: grid; gap: 22px; min-width: 0; }
+.stop + .stop { margin-top: 0; }
+.tour.all .stop + .stop { border-top: 1px solid var(--line); padding-top: 44px; margin-top: 44px; }
+.stop-head { display: grid; gap: 8px; }
+.stop-head .eyebrow { color: var(--accent-ink); }
+.stop h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(30px, 4vw, 42px); line-height: 1.02; text-transform: uppercase; letter-spacing: 0.005em; }
+.stop h2:focus { outline: none; }
+.intro { font-size: 17px; max-width: 62ch; color: var(--ink); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-family: var(--font-mono); font-size: 12px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--panel); }
+
+figure { margin: 0; display: grid; gap: 10px; min-width: 0; }
+.fig-frame { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; overflow-x: auto; }
+.fig-frame svg { display: block; width: 100%; min-width: 640px; height: auto; }
+figcaption { font-size: 14px; color: var(--muted); max-width: 70ch; }
+.key-swatch { display: inline-block; width: 22px; height: 12px; border: 2px solid var(--accent); border-radius: 3px; vertical-align: -1px; margin-right: 4px; }
+
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+@media (max-width: 720px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+.block h3 { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 8px; }
+.block p { max-width: 62ch; }
+.block ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; }
+.block li { max-width: 62ch; }
+.block li::marker { color: var(--accent); }
+.num { font-variant-numeric: tabular-nums; }
+
+/* diagram parts (styled from the page, so they follow the theme) */
+.dg { font-family: var(--font-body); }
+.dg .layer { fill: var(--layer); }
+.dg .box { fill: var(--panel); stroke: var(--line); stroke-width: 1.2; }
+.dg .box.chg { stroke: var(--accent); stroke-width: 2.2; }
+.dg .box.hold { fill: var(--layer); }
+.dg .group { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.dg .t { fill: var(--ink); font-size: 13px; font-weight: 600; }
+.dg .s { fill: var(--muted); font-size: 11.5px; }
+.dg .m { fill: var(--ink); font-family: var(--font-mono); font-size: 11.5px; }
+.dg .lbl { fill: var(--muted); font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; }
+.dg .lbl.acc { fill: var(--accent-ink); }
+.dg .wire { stroke: var(--muted); stroke-width: 1.4; fill: none; }
+.dg .wire.acc { stroke: var(--accent); stroke-width: 1.8; }
+.dg .wire.dash { stroke-dasharray: 5 4; }
+.dg .ah { fill: var(--muted); }
+.dg .ah.acc { fill: var(--accent); }
+
+/* code */
+.code { background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; overflow-x: auto; }
+.code-head { font-family: var(--font-mono); font-size: 12px; color: var(--muted); padding: 10px 16px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.code pre { margin: 0; padding: 14px 16px 16px; font: 13px/1.6 var(--font-mono); color: var(--ink); white-space: pre; }
+.code .k { color: var(--kw); } .code .s { color: var(--str); } .code .v { color: var(--var); } .code .c { color: var(--cmt); font-style: italic; }
+
+/* audit board */
+.board { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+.cell { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 10px; align-items: start; font-size: 14px; line-height: 1.4; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--go); margin-top: 5px; }
+
+/* tables */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--layer); }
+td.area { font-weight: 600; white-space: nowrap; }
+td.after { color: var(--ink); }
+td.before { color: var(--muted); }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 12px; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; }
+.pill .pd { width: 8px; height: 8px; border-radius: 50%; background: var(--go); }
+.pill.solid .pd { background: var(--accent); }
+.pill.adj .pd { background: transparent; border: 1.5px solid var(--muted); }
+.tbl-map td:first-child { font-weight: 600; }
+.stoplink { background: none; border: 0; padding: 0; font: inherit; color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+.facts { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.facts li { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 4px 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.facts li:last-child { border-bottom: 0; padding-bottom: 0; }
+.facts b { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; padding-top: 3px; }
+@media (max-width: 560px) { .facts li { grid-template-columns: minmax(0, 1fr); } }
+
+.stop-nav { display: flex; justify-content: space-between; gap: 12px; padding-top: 8px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+.stop-nav .btn { background: var(--panel); color: var(--ink); border-color: var(--line); }
+.stop-nav .btn:hover { border-color: var(--ink); }
+.stop-nav .btn.next { background: var(--accent); color: #fff; border-color: var(--accent); }
+.stop-nav .btn[disabled] { opacity: 0.4; cursor: default; }
+.tour.all .stop-nav { display: none; }
+
+/* contact */
+.contact { border-top: 1px solid var(--line); background: var(--layer); padding-inline: 20px; padding-block: 44px 56px; }
+.contact-inner { max-width: 1120px; margin: 0 auto; display: grid; gap: 20px; }
+.contact h2 { font-family: var(--font-display); font-weight: 700; font-size: 34px; text-transform: uppercase; line-height: 1; }
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.ci { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; min-width: 0; }
+.ci .eyebrow { color: var(--muted); font-size: 11px; }
+.ci .val { font-family: var(--font-mono); font-size: 15px; overflow-wrap: anywhere; user-select: all; }
+.ci button { justify-self: start; background: none; border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; font: 500 13px var(--font-body); color: var(--ink); cursor: pointer; }
+.ci button:hover { border-color: var(--ink); }
+.fine { font-size: 13px; color: var(--muted); max-width: 80ch; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .stop.enter { animation: rise 0.28s ease-out; }
+  @keyframes rise { from { opacity: 0.35; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+}
+</style>
+</head>
+<body>
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <p class="eyebrow">Systems portfolio</p>
+    <h1>Brandon Ruiz</h1>
+    <p class="role">Systems engineer. Windows Server, Active Directory, Linux, networks and automation.</p>
+    <p class="lede">Five stops through systems I took over, fixed and run, then a map of how they line up with your posting. About three minutes.</p>
+    <p class="meta"><span>Long Beach, California</span><span>U.S. citizen</span><span>For: IT Systems Administrator, Mission Systems</span></p>
+    <div class="actions">
+      <a class="btn btn-primary" href="#stop-1" data-go="0">Start the tour</a>
+      <button class="btn btn-ghost" type="button" id="all-btn-hero">Show everything on one page</button>
+      <a class="btn btn-ghost" href="assets/Brandon_Ruiz_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="tour" id="tour">
+    <nav class="rail" aria-label="Portfolio stops">
+      <p class="eyebrow rail-head">Six stops</p>
+      <button class="rail-item" type="button" data-go="0"><span class="n">01</span><span class="rt">Taking over a Windows network in two weeks</span><span class="rs">Domain, firewall, backups, Microsoft 365</span></button>
+      <button class="rail-item" type="button" data-go="1"><span class="n">02</span><span class="rt">The Kerberos failure that was a clock</span><span class="rs">NTP, Group Policy, Entra hybrid join</span></button>
+      <button class="rail-item" type="button" data-go="2"><span class="n">03</span><span class="rt">PowerShell I wrote and ran in the field</span><span class="rs">Public repo, compliance audits, fleet changes</span></button>
+      <button class="rail-item" type="button" data-go="3"><span class="n">04</span><span class="rt">A Linux fleet run by one person</span><span class="rs">79 systemd services, hardening, monitoring</span></button>
+      <button class="rail-item" type="button" data-go="4"><span class="n">05</span><span class="rt">AWS with least privilege and hard limits</span><span class="rs">IAM roles, spot capacity, rehearsed changes</span></button>
+      <button class="rail-item" type="button" data-go="5"><span class="n">06</span><span class="rt">How this maps to your posting</span><span class="rs">Each requirement, with where to see it</span></button>
+      <div class="rail-foot">
+        <button class="linkbtn" type="button" id="all-btn-rail">Show everything on one page</button>
+      </div>
+    </nav>
+
+    <div class="stage" id="stage">
+
+      <!-- ===================== STOP 1 ===================== -->
+      <section class="stop" id="stop-1" aria-labelledby="h-1">
+        <div class="stop-head">
+          <p class="eyebrow">Stop 1 of 6 · Mar to Aug 2025</p>
+          <h2 id="h-1" tabindex="-1">Taking over a production Windows network in two weeks</h2>
+          <p class="intro">A 7-user marine-services company was leaving a national MSP. I had two weeks to take over the domain controller, file server, hypervisor, firewall, backups and Microsoft 365 tenant, then run them.</p>
+          <div class="chips"><span class="chip">Windows Server 2022</span><span class="chip">Active Directory</span><span class="chip">VMware ESXi</span><span class="chip">FortiGate</span><span class="chip">Veeam</span><span class="chip">Microsoft 365</span></div>
+        </div>
+
+        <figure>
+          <div class="fig-frame">
+            <svg class="dg" viewBox="0 0 776 408" role="img" aria-label="The environment in four layers: cloud, edge, servers and endpoints. Microsoft 365, the two immutable backup stores, the FortiGate, the domain controller and the workstations were changed during the takeover. Veeam copies server backups up to cloud storage.">
+              <defs>
+                <marker id="ah1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="ah acc" d="M0 0 L10 5 L0 10 z"/></marker>
+              </defs>
+              <!-- layers -->
+              <rect class="layer" x="0" y="8" width="750" height="80" rx="8"/>
+              <rect class="layer" x="0" y="104" width="750" height="80" rx="8"/>
+              <rect class="layer" x="0" y="200" width="750" height="104" rx="8"/>
+              <rect class="layer" x="0" y="320" width="750" height="80" rx="8"/>
+              <text class="lbl" x="14" y="52">CLOUD</text>
+              <text class="lbl" x="14" y="148">EDGE</text>
+              <text class="lbl" x="14" y="256">SERVERS</text>
+              <text class="lbl" x="14" y="364">ENDPOINTS</text>
+
+              <!-- cloud -->
+              <rect class="box chg" x="128" y="20" width="270" height="56" rx="6"/>
+              <text class="t" x="142" y="43">Microsoft 365 Business Premium</text>
+              <text class="s" x="142" y="62">Entra ID · Exchange Online · Defender</text>
+              <rect class="box chg" x="414" y="20" width="160" height="56" rx="6"/>
+              <text class="t" x="428" y="43">Backblaze B2</text>
+              <text class="s" x="428" y="62">Object Lock, 30 days</text>
+              <rect class="box chg" x="590" y="20" width="150" height="56" rx="6"/>
+              <text class="t" x="604" y="43">Wasabi</text>
+              <text class="s" x="604" y="62">GFS retention 12 / 4 / 7</text>
+
+              <!-- edge -->
+              <rect class="box" x="128" y="116" width="110" height="26" rx="5"/>
+              <text class="m" x="183" y="133" text-anchor="middle">ISP A</text>
+              <rect class="box" x="128" y="148" width="110" height="26" rx="5"/>
+              <text class="m" x="183" y="165" text-anchor="middle">ISP B</text>
+              <line class="wire" x1="238" y1="129" x2="336" y2="136"/>
+              <line class="wire" x1="238" y1="161" x2="336" y2="154"/>
+              <rect class="box chg" x="336" y="116" width="300" height="56" rx="6"/>
+              <text class="t" x="350" y="139">FortiGate 60F</text>
+              <text class="s" x="350" y="158">dual-WAN SD-WAN · SSL-VPN · web filtering</text>
+
+              <!-- servers -->
+              <rect class="box hold" x="128" y="208" width="612" height="88" rx="6"/>
+              <text class="s" x="142" y="228">Dell PowerEdge T350 · VMware ESXi 8.0.3</text>
+              <rect class="box chg" x="140" y="240" width="200" height="46" rx="5"/>
+              <text class="t" x="154" y="259">Domain controller</text>
+              <text class="s" x="154" y="276">Windows Server 2022</text>
+              <rect class="box" x="352" y="240" width="180" height="46" rx="5"/>
+              <text class="t" x="366" y="259">File server</text>
+              <text class="s" x="366" y="276">Windows Server 2022</text>
+              <rect class="box" x="544" y="240" width="184" height="46" rx="5"/>
+              <text class="t" x="558" y="259">Ubuntu VM</text>
+              <text class="s" x="558" y="276">Linux services</text>
+
+              <!-- endpoints -->
+              <rect class="box chg" x="128" y="332" width="330" height="56" rx="6"/>
+              <text class="t" x="142" y="355">8 workstations</text>
+              <text class="s" x="142" y="374">Windows 10/11 · Defender for Endpoint</text>
+              <rect class="box" x="474" y="332" width="180" height="56" rx="6"/>
+              <text class="t" x="488" y="355">Synology NAS</text>
+              <text class="s" x="488" y="374">SMB backup repository</text>
+
+              <!-- links -->
+              <line class="wire" x1="486" y1="172" x2="486" y2="208"/>
+              <text class="lbl" x="494" y="194">LAN</text>
+              <line class="wire" x1="293" y1="296" x2="293" y2="332"/>
+              <text class="lbl" x="301" y="318">LAN</text>
+              <path class="wire acc" d="M740 252 H764 V48 H744" marker-end="url(#ah1)"/>
+              <text class="lbl acc" x="758" y="99" text-anchor="end">VEEAM BACKUP COPY</text>
+            </svg>
+          </div>
+          <figcaption><span class="key-swatch" aria-hidden="true"></span>Orange outline: changed during the takeover. Client name, hostnames and addresses are left out.</figcaption>
+        </figure>
+
+        <div class="cols">
+          <div class="block">
+            <h3>What I did</h3>
+            <ul>
+              <li>Inventoried and re-secured about 20 privileged accounts (Domain Admin, ESXi root, iDRAC, vCenter, FortiGate, NAS, switch, CSP global admin), negotiated the global-admin handover from an MFA-locked incumbent account, and set up a documented break-glass admin.</li>
+              <li>Moved Veeam backups for the DC and file server off the old provider's vault to immutable object storage: Backblaze B2 with 30-day Object Lock, then Wasabi with GFS 12/4/7. Defined recovery-time tiers of 4 h, 8 h and 24 h.</li>
+              <li>Replaced Bitdefender with Defender for Endpoint on the server and all 8 workstations, and ProofPoint with Defender for Office 365.</li>
+              <li>Migrated DNS from Rackspace to GoDaddy and cut mail over to Exchange Online, staging TTLs to 300 s and setting SPF, DKIM and DMARC.</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h3>How I checked it</h3>
+            <ul>
+              <li>Restore tests on the new backup chain before relying on it.</li>
+              <li>Safe Links and Safe Attachments validated with EICAR and phishing tests.</li>
+              <li>The live DNS zone verified by export after the mail cutover, and a next-day inbound issue resolved from message traces.</li>
+              <li>Wrote it all down: a security policy, a 4-phase incident-response runbook and a 25-document operations package.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="stop-nav"><button class="btn" type="button" data-step="-1" disabled>Previous</button><button class="btn next" type="button" data-step="1">Next: the clock problem</button></div>
+      </section>
+
+      <!-- ===================== STOP 2 ===================== -->
+      <section class="stop" id="stop-2" aria-labelledby="h-2" hidden>
+        <div class="stop-head">
+          <p class="eyebrow">Stop 2 of 6 · same engagement</p>
+          <h2 id="h-2" tabindex="-1">The Kerberos failure that was a clock</h2>
+          <p class="intro">Your posting lists NTP and PTP. This is what drifting time did to a Windows domain, and a second identity failure I traced the same way: symptom, evidence, fix, then proof.</p>
+          <div class="chips"><span class="chip">NTP / w32tm</span><span class="chip">Kerberos</span><span class="chip">Group Policy</span><span class="chip">Entra hybrid join</span><span class="chip">PowerShell</span></div>
+        </div>
+
+        <figure>
+          <div class="fig-frame">
+            <svg class="dg" viewBox="0 0 780 268" role="img" aria-label="Case 1: Group Policy and Kerberos failed across the domain because the DC's clock was free-running; reconfiguring w32tm on the DC and the FortiGate NTP source fixed it, verified with nltest and gpupdate. Case 2: workstations failed Entra hybrid registration; dsregcmd showed AD Configuration Test FAIL 0x80070002; creating the missing Service Connection Point in PowerShell restored registration and Defender onboarding.">
+              <defs>
+                <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="ah" d="M0 0 L10 5 L0 10 z"/></marker>
+              </defs>
+              <text class="lbl" x="2" y="16">CASE 1 · KERBEROS AND GROUP POLICY</text>
+              <rect class="box" x="2" y="26" width="176" height="100" rx="6"/>
+              <text class="lbl" x="14" y="48">SYMPTOM</text>
+              <text class="s" x="14" y="72">Group Policy and</text><text class="s" x="14" y="90">Kerberos failing</text><text class="s" x="14" y="108">across the domain</text>
+              <line class="wire" x1="180" y1="76" x2="198" y2="76" marker-end="url(#ah2)"/>
+              <rect class="box" x="202" y="26" width="176" height="100" rx="6"/>
+              <text class="lbl" x="214" y="48">CAUSE</text>
+              <text class="s" x="214" y="72">The DC's clock</text><text class="s" x="214" y="90">was free-running</text>
+              <line class="wire" x1="380" y1="76" x2="398" y2="76" marker-end="url(#ah2)"/>
+              <rect class="box chg" x="402" y="26" width="176" height="100" rx="6"/>
+              <text class="lbl acc" x="414" y="48">FIX</text>
+              <text class="s" x="414" y="72">Reconfigured w32tm</text><text class="s" x="414" y="90">on the DC and the</text><text class="s" x="414" y="108">FortiGate NTP source</text>
+              <line class="wire" x1="580" y1="76" x2="598" y2="76" marker-end="url(#ah2)"/>
+              <rect class="box" x="602" y="26" width="176" height="100" rx="6"/>
+              <text class="lbl" x="614" y="48">PROOF</text>
+              <text class="s" x="614" y="72">nltest: machine</text><text class="s" x="614" y="90">trust verified</text><text class="s" x="614" y="108">gpupdate: applies</text>
+
+              <text class="lbl" x="2" y="152">CASE 2 · ENTRA HYBRID JOIN</text>
+              <rect class="box" x="2" y="162" width="176" height="100" rx="6"/>
+              <text class="lbl" x="14" y="184">SYMPTOM</text>
+              <text class="s" x="14" y="208">Workstations failed</text><text class="s" x="14" y="226">Entra hybrid device</text><text class="s" x="14" y="244">registration</text>
+              <line class="wire" x1="180" y1="212" x2="198" y2="212" marker-end="url(#ah2)"/>
+              <rect class="box" x="202" y="162" width="176" height="100" rx="6"/>
+              <text class="lbl" x="214" y="184">EVIDENCE</text>
+              <text class="s" x="214" y="208">dsregcmd: AD</text><text class="s" x="214" y="226">Configuration Test</text><text class="m" x="214" y="244">FAIL 0x80070002</text>
+              <line class="wire" x1="380" y1="212" x2="398" y2="212" marker-end="url(#ah2)"/>
+              <rect class="box chg" x="402" y="162" width="176" height="100" rx="6"/>
+              <text class="lbl acc" x="414" y="184">FIX</text>
+              <text class="s" x="414" y="208">Created the missing</text><text class="s" x="414" y="226">Service Connection</text><text class="s" x="414" y="244">Point in PowerShell</text>
+              <line class="wire" x1="580" y1="212" x2="598" y2="212" marker-end="url(#ah2)"/>
+              <rect class="box" x="602" y="162" width="176" height="100" rx="6"/>
+              <text class="lbl" x="614" y="184">PROOF</text>
+              <text class="s" x="614" y="208">Device registration</text><text class="s" x="614" y="226">and Defender</text><text class="s" x="614" y="244">onboarding restored</text>
+            </svg>
+          </div>
+          <figcaption>Both failures looked like identity problems. The first was time; the second was a missing directory object that hybrid join looks for.</figcaption>
+        </figure>
+
+        <div class="code">
+          <div class="code-head"><span>entra/New-EntraServiceConnectionPoint.ps1</span><span>excerpt · public repo</span></div>
+<pre><span class="v">$configNC</span> = (<span class="k">Get-ADRootDSE</span>).configurationNamingContext
+<span class="v">$servicesPath</span> = <span class="s">"CN=Services,$configNC"</span>
+<span class="c"># ... creates the Services and Device Registration Configuration containers if missing ...</span>
+<span class="v">$containerPath</span> = <span class="s">"CN=Device Registration Configuration,CN=Services,$configNC"</span>
+
+<span class="k">New-ADObject</span> -Name <span class="v">$TenantId</span> -Type <span class="s">"serviceConnectionPoint"</span> -Path <span class="v">$containerPath</span> -OtherAttributes @{
+    keywords=<span class="s">"azureADId=$TenantId"</span>;
+    serviceBindingInformation=<span class="s">"https://enterpriseregistration.windows.net/"</span>
+}</pre>
+        </div>
+        <div class="stop-nav"><button class="btn" type="button" data-step="-1">Previous</button><button class="btn next" type="button" data-step="1">Next: the PowerShell toolkit</button></div>
+      </section>
+
+      <!-- ===================== STOP 3 ===================== -->
+      <section class="stop" id="stop-3" aria-labelledby="h-3" hidden>
+        <div class="stop-head">
+          <p class="eyebrow">Stop 3 of 6 · 2025 to 2026</p>
+          <h2 id="h-3" tabindex="-1">PowerShell I wrote and ran in the field</h2>
+          <p class="intro">A public repository of the scripts from running my MSP. Client names, hosts and IDs are replaced with placeholders; the commands and logic are what ran. <a href="https://github.com/Brandonrz369/ps-sysadmin-toolkit" target="_blank" rel="noopener">github.com/Brandonrz369/ps-sysadmin-toolkit</a></p>
+          <div class="chips"><span class="chip">PowerShell 5.1+</span><span class="chip">hardening</span><span class="chip">compliance evidence</span><span class="chip">fleet changes</span></div>
+        </div>
+
+        <figure>
+          <div class="board" role="list" aria-label="What the compliance engine audits on each machine">
+            <div class="cell" role="listitem"><span class="dot"></span><span>BitLocker status</span></div>
+            <div class="cell" role="listitem"><span class="dot"></span><span>Windows Firewall, every profile</span></div>
+            <div class="cell" role="listitem"><span class="dot"></span><span>Defender real-time and tamper protection</span></div>
+            <div class="cell" role="listitem"><span class="dot"></span><span>RDP with Network Level Authentication</span></div>
+            <div class="cell" role="listitem"><span class="dot"></span><span>AutoAdminLogon and stored plaintext passwords</span></div>
+            <div class="cell" role="listitem"><span class="dot"></span><span>SMBv1</span></div>
+            <div class="cell" role="listitem"><span class="dot"></span><span>Local Administrators membership</span></div>
+            <div class="cell" role="listitem"><span class="dot"></span><span>Installed remote-access tools</span></div>
+            <div class="cell" role="listitem"><span class="dot"></span><span>Patch recency</span></div>
+            <div class="cell" role="listitem"><span class="dot"></span><span>Screen-lock policy</span></div>
+            <div class="cell" role="listitem"><span class="dot"></span><span>Password and lockout policy (secedit)</span></div>
+          </div>
+          <figcaption>The compliance engine checks each item, can fix it, and writes per-host JSON and CSV evidence mapped to HIPAA (45 CFR 164). I validated it end to end on a test workstation with before-and-after output.</figcaption>
+        </figure>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Script</th><th>What it is for</th></tr></thead>
+            <tbody>
+              <tr><td class="area">firewall/Set-DcFirewallBaseline</td><td>Firewall baseline for an inherited DC: the AD DS, DNS, file and WMI rules plus the custom ports the backup and RMM agents need.</td></tr>
+              <tr><td class="area">fleet/Test-FleetReachability</td><td>DNS-resolve and ping-sweep every workstation before a fleet-wide change.</td></tr>
+              <tr><td class="area">fleet/Invoke-FleetGpUpdate</td><td>Force a Group Policy refresh on every workstation that answers.</td></tr>
+              <tr><td class="area">entra/New-EntraServiceConnectionPoint</td><td>The hybrid-join fix from stop 2.</td></tr>
+              <tr><td class="area">migration/Invoke-UsmtScanState</td><td>Capture a user's profile with USMT for a workstation migration.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="stop-nav"><button class="btn" type="button" data-step="-1">Previous</button><button class="btn next" type="button" data-step="1">Next: the Linux fleet</button></div>
+      </section>
+
+      <!-- ===================== STOP 4 ===================== -->
+      <section class="stop" id="stop-4" aria-labelledby="h-4" hidden>
+        <div class="stop-head">
+          <p class="eyebrow">Stop 4 of 6 · 2026</p>
+          <h2 id="h-4" tabindex="-1">A Linux fleet run by one person</h2>
+          <p class="intro">I run 79 systemd services on Ubuntu 24.04 for my own projects. These are the fixes I made, each with how I checked it.</p>
+          <div class="chips"><span class="chip">Ubuntu 24.04</span><span class="chip">systemd</span><span class="chip">ufw / iptables</span><span class="chip">WireGuard</span><span class="chip">incident response</span><span class="chip">backups</span></div>
+        </div>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Area</th><th>Before</th><th>After</th><th>How I checked</th></tr></thead>
+            <tbody>
+              <tr><td class="area">Host firewall</td><td class="before">No firewall in front of 6 internet-facing services</td><td class="after">ufw, default deny</td><td>Probed from outside</td></tr>
+              <tr><td class="area">Dashboards</td><td class="before">2 exposed with no login</td><td class="after">Authentication added</td><td class="num">401 without, 200 with</td></tr>
+              <tr><td class="area">Leaked key</td><td class="before">A credential public in a repo for about 4 months</td><td class="after">Purged from full history with git-filter-repo; 7 API keys re-issued</td><td>Zero commits left; old key returns 401; every repo swept</td></tr>
+              <tr><td class="area">Log growth</td><td class="before num">About 800 MB per rotation from 1.4 M AppArmor denials</td><td class="after">Caps in rsyslog, journald and logrotate</td><td class="num">0 MB per hour</td></tr>
+              <tr><td class="area">Root disk</td><td class="before num">61.5 GiB</td><td class="after num">132.6 GiB</td><td>Gated by an ntfsresize dry run and a SHA-256 check before the partition table changed</td></tr>
+              <tr><td class="area">Latency</td><td class="before num">1.2 to 3.3 s to first byte</td><td class="after num">0.21 to 0.48 s, via a WireGuard split tunnel run as a systemd service</td><td class="num">Route set cut from 22.2 M to 1.09 M addresses</td></tr>
+              <tr><td class="area">Backups</td><td class="before">Local only</td><td class="after">Off-site rclone snapshots</td><td>SHA-256 restore checks</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <ul class="facts">
+          <li><b>Monitoring</b><span>Everything reports to one status page: green when it runs on its own, amber when its data goes stale, red when it needs me. Read-only collectors refresh it every 10 minutes and the page reloads every 2.</span></li>
+          <li><b>Also on GitHub</b><span><a href="https://github.com/Brandonrz369/voice-type" target="_blank" rel="noopener">voice-type</a>: system-wide voice-to-text for Linux on an Alt+X hotkey.</span></li>
+        </ul>
+        <div class="stop-nav"><button class="btn" type="button" data-step="-1">Previous</button><button class="btn next" type="button" data-step="1">Next: AWS</button></div>
+      </section>
+
+      <!-- ===================== STOP 5 ===================== -->
+      <section class="stop" id="stop-5" aria-labelledby="h-5" hidden>
+        <div class="stop-head">
+          <p class="eyebrow">Stop 5 of 6 · Sep 2026</p>
+          <h2 id="h-5" tabindex="-1">AWS with least privilege and hard limits</h2>
+          <p class="intro">The compute behind my trading research and live trading systems runs on EC2. I set it up the way I would for an employer: no long-lived keys, narrow network paths, and changes rehearsed before they run.</p>
+          <div class="chips"><span class="chip">EC2</span><span class="chip">IAM instance roles</span><span class="chip">security groups</span><span class="chip">spot capacity</span><span class="chip">Python / boto3</span><span class="chip">runbooks</span></div>
+        </div>
+
+        <figure>
+          <div class="fig-frame">
+            <svg class="dg" viewBox="0 0 780 300" role="img" aria-label="The laptop holds no AWS keys and reaches a controller instance over ssh. The controller signs AWS calls with its IAM instance role and launches, syncs and terminates temporary spot workers, which accept SSH only from the controller's private IP. Live production instances are never touched by the fleet.">
+              <defs>
+                <marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="ah" d="M0 0 L10 5 L0 10 z"/></marker>
+                <marker id="ah3a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path class="ah acc" d="M0 0 L10 5 L0 10 z"/></marker>
+              </defs>
+              <rect class="box" x="8" y="112" width="150" height="76" rx="6"/>
+              <text class="t" x="22" y="140">Laptop</text>
+              <text class="s" x="22" y="160">no AWS keys</text>
+              <text class="s" x="22" y="176">stored on it</text>
+
+              <line class="wire" x1="158" y1="150" x2="229" y2="150" marker-end="url(#ah3)"/>
+              <text class="lbl" x="194" y="142" text-anchor="middle">SSH</text>
+
+              <rect class="box chg" x="232" y="92" width="200" height="116" rx="6"/>
+              <text class="t" x="246" y="120">Controller instance</text>
+              <text class="s" x="246" y="142">IAM instance role signs</text>
+              <text class="s" x="246" y="160">every AWS API call</text>
+              <text class="s" x="246" y="178">(boto3, no stored keys)</text>
+
+              <line class="wire acc" x1="432" y1="104" x2="517" y2="104" marker-end="url(#ah3a)"/>
+              <text class="lbl acc" x="475" y="96" text-anchor="middle">LAUNCH, SYNC</text>
+              <text class="lbl acc" x="475" y="121" text-anchor="middle">TERMINATE</text>
+
+              <rect class="group" x="520" y="16" width="252" height="156" rx="8"/>
+              <text class="lbl" x="534" y="34">SPOT WORKERS, TEMPORARY</text>
+              <rect class="box" x="534" y="44" width="108" height="56" rx="5"/>
+              <text class="t" x="548" y="67">128 vCPU</text>
+              <text class="s" x="548" y="86">512 GB</text>
+              <rect class="box" x="652" y="44" width="108" height="56" rx="5"/>
+              <text class="t" x="666" y="67">128 vCPU</text>
+              <text class="s" x="666" y="86">512 GB</text>
+              <text class="s" x="534" y="124">SSH accepted only from</text>
+              <text class="s" x="534" y="142">the controller's private IP</text>
+              <text class="s" x="534" y="160">terminated when done</text>
+
+              <line class="wire dash" x1="432" y1="192" x2="516" y2="246"/>
+              <line class="wire" x1="512" y1="240" x2="520" y2="252"/>
+              <text class="lbl" x="440" y="270">NEVER TOUCHED</text>
+              <rect class="box hold" x="520" y="212" width="252" height="76" rx="6"/>
+              <text class="t" x="534" y="242">Live production instances</text>
+              <text class="s" x="534" y="264">marked never-touch in the runbook</text>
+            </svg>
+          </div>
+          <figcaption>One controller does all the AWS work with its own role. Workers are rented, reachable only from the controller, and deleted after the run.</figcaption>
+        </figure>
+
+        <ul class="facts">
+          <li><b>Keys</b><span>No AWS credentials live on my laptop. A controller instance signs every API call with its IAM instance role.</span></li>
+          <li><b>Network</b><span>Workers accept SSH only from the controller's private IP, through a single /32 security-group rule. The controller's public key goes in through user-data; workers hold no keys of their own.</span></li>
+          <li><b>Capacity</b><span class="num">On 27 Sep 2026, 1,296 backtests ran across two 128-core spot servers in about 1.9 hours for about $8. Both servers were terminated when the run finished.</span></li>
+          <li><b>Quotas</b><span>The account's 256-vCPU spot quota is shared across projects, so the runbook allows at most two 128-core workers at once.</span></li>
+          <li><b>Change control</b><span>A resize tool changes instance types only through the EC2 API. It dry-runs every call first, can rehearse the whole flow on a t4g.nano for about a cent, and writes a verdict file for every run.</span></li>
+          <li><b>Lesson kept</b><span>An in-OS shutdown once deleted an instance on this account, so none of my tools rely on one.</span></li>
+        </ul>
+        <div class="stop-nav"><button class="btn" type="button" data-step="-1">Previous</button><button class="btn next" type="button" data-step="1">Next: the map to your posting</button></div>
+      </section>
+
+      <!-- ===================== STOP 6 ===================== -->
+      <section class="stop" id="stop-6" aria-labelledby="h-6" hidden>
+        <div class="stop-head">
+          <p class="eyebrow">Stop 6 of 6</p>
+          <h2 id="h-6" tabindex="-1">How this maps to your posting</h2>
+          <p class="intro">The requirements from the IT Systems Administrator, Mission Systems posting, and where on this page to see each one.</p>
+        </div>
+
+        <div class="tbl-wrap">
+          <table class="tbl-map">
+            <thead><tr><th>Your posting asks for</th><th>Where to see it</th><th>Strength</th></tr></thead>
+            <tbody>
+              <tr><td>Linux and Windows server administration</td><td><button class="stoplink" type="button" data-go="0">Stop 1</button>, <button class="stoplink" type="button" data-go="3">4</button>, <button class="stoplink" type="button" data-go="4">5</button></td><td><span class="pill"><span class="pd"></span>Strong</span></td></tr>
+              <tr><td>TCP/IP, DNS, DHCP and NTP</td><td><button class="stoplink" type="button" data-go="0">Stop 1</button>, <button class="stoplink" type="button" data-go="1">2</button></td><td><span class="pill"><span class="pd"></span>Strong</span></td></tr>
+              <tr><td>Active Directory and identity</td><td><button class="stoplink" type="button" data-go="0">Stop 1</button>, <button class="stoplink" type="button" data-go="1">2</button></td><td><span class="pill"><span class="pd"></span>Strong</span></td></tr>
+              <tr><td>Firewalls and cybersecurity</td><td><button class="stoplink" type="button" data-go="0">Stop 1</button>, <button class="stoplink" type="button" data-go="2">3</button>, <button class="stoplink" type="button" data-go="3">4</button></td><td><span class="pill"><span class="pd"></span>Strong</span></td></tr>
+              <tr><td>Scripting: Bash, PowerShell, Python</td><td><button class="stoplink" type="button" data-go="2">Stop 3</button>, <button class="stoplink" type="button" data-go="3">4</button>, <button class="stoplink" type="button" data-go="4">5</button></td><td><span class="pill"><span class="pd"></span>Strong</span></td></tr>
+              <tr><td>Designing and troubleshooting networks</td><td><button class="stoplink" type="button" data-go="0">Stop 1</button> (dual-WAN SD-WAN, SSL-VPN)</td><td><span class="pill solid"><span class="pd"></span>Solid, small-site scale</span></td></tr>
+              <tr><td>Real-time systems</td><td><button class="stoplink" type="button" data-go="4">Stop 5</button></td><td><span class="pill solid"><span class="pd"></span>Solid</span></td></tr>
+              <tr><td>Standards-driven configuration (NIST, ISO)</td><td><button class="stoplink" type="button" data-go="2">Stop 3</button> (HIPAA-mapped audit evidence)</td><td><span class="pill adj"><span class="pd"></span>Related</span></td></tr>
+              <tr><td>ITAR eligibility</td><td>U.S. citizen</td><td><span class="pill"><span class="pd"></span>Meets</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="intro">Everything on this page is work I can explain line by line on a call.</p>
+        <div class="stop-nav"><button class="btn" type="button" data-step="-1">Previous</button><button class="btn next" type="button" data-go="0">Back to the start</button></div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<footer class="contact" id="contact">
+  <div class="contact-inner">
+    <h2>Contact</h2>
+    <div class="contact-grid">
+      <div class="ci"><span class="eyebrow">Phone</span><span class="val" id="c-phone">(562) 244-0413</span><button type="button" data-copy="c-phone">Copy</button></div>
+      <div class="ci"><span class="eyebrow">Email</span><span class="val" id="c-email">brandonlruiz98@gmail.com</span><button type="button" data-copy="c-email">Copy</button></div>
+      <div class="ci"><span class="eyebrow">Code</span><span class="val"><a href="https://github.com/Brandonrz369" target="_blank" rel="noopener">github.com/Brandonrz369</a></span></div>
+      <div class="ci"><span class="eyebrow">Résumé</span><span class="val"><a href="assets/Brandon_Ruiz_Resume.pdf" target="_blank" rel="noopener">Brandon_Ruiz_Resume.pdf</a></span></div>
+    </div>
+    <p class="fine">Client names, hostnames and addresses are left out on purpose. Numbers come from my own runbooks, command output and the public repository.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var tour = document.getElementById('tour');
+  var stops = Array.prototype.slice.call(document.querySelectorAll('.stop'));
+  var rail = Array.prototype.slice.call(document.querySelectorAll('.rail-item'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var current = 0, all = false;
+
+  function setHash(h) { try { history.replaceState(null, '', '#' + h); } catch (e) {} }
+
+  function show(i, scroll) {
+    i = Math.max(0, Math.min(stops.length - 1, i));
+    all = false;
+    tour.classList.remove('all');
+    stops.forEach(function (s, k) {
+      s.hidden = k !== i;
+      if (k === i) { s.classList.remove('enter'); void s.offsetWidth; s.classList.add('enter'); }
+    });
+    rail.forEach(function (r, k) { r.setAttribute('aria-current', k === i ? 'step' : 'false'); });
+    current = i;
+    setHash(stops[i].id);
+    if (scroll) {
+      var top = tour.getBoundingClientRect().top + window.pageYOffset - 16;
+      window.scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
+      var h = stops[i].querySelector('h2');
+      if (h) { try { h.focus({ preventScroll: true }); } catch (e) { h.focus(); } }
+    }
+  }
+
+  function showAll(scroll) {
+    all = true;
+    tour.classList.add('all');
+    stops.forEach(function (s) { s.hidden = false; s.classList.remove('enter'); });
+    rail.forEach(function (r) { r.setAttribute('aria-current', 'false'); });
+    setHash('all');
+    if (scroll) {
+      var top = tour.getBoundingClientRect().top + window.pageYOffset - 16;
+      window.scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    var go = e.target.closest('[data-go]');
+    if (go) {
+      e.preventDefault();
+      var i = parseInt(go.getAttribute('data-go'), 10);
+      if (all && go.classList.contains('stoplink')) {
+        stops[i].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      } else { show(i, true); }
+      return;
+    }
+    var step = e.target.closest('[data-step]');
+    if (step) { show(current + parseInt(step.getAttribute('data-step'), 10), true); return; }
+    var copy = e.target.closest('[data-copy]');
+    if (copy) {
+      var el = document.getElementById(copy.getAttribute('data-copy'));
+      var text = el ? el.textContent.trim() : '';
+      var done = function () { var t = copy.textContent; copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = t; }, 1600); };
+      var fallback = function () {
+        try { var r = document.createRange(); r.selectNodeContents(el); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); copy.textContent = 'Selected, press copy'; } catch (err) {}
+      };
+      try { navigator.clipboard.writeText(text).then(done, fallback); } catch (err) { fallback(); }
+    }
+  });
+
+  ['all-btn-hero', 'all-btn-rail'].forEach(function (id) {
+    var b = document.getElementById(id);
+    if (b) b.addEventListener('click', function () { showAll(true); });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (all || e.altKey || e.ctrlKey || e.metaKey) return;
+    var tag = (e.target && e.target.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight') { show(current + 1, true); }
+    else if (e.key === 'ArrowLeft') { show(current - 1, true); }
+  });
+
+  var h = (location.hash || '').replace('#', '');
+  var m = /^stop-(\d)$/.exec(h);
+  if (h === 'all') { showAll(false); }
+  else if (m) { show(parseInt(m[1], 10) - 1, false); }
+  else { show(0, false); }
+})();
+</script>
+
+</body>
+</html>
